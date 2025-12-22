@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="POSSystem.Maui.Pages.MainPage"
+             Title="POS System - Dashboard">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="25" Padding="30,0">
+            
+            <Label 
+                Text="Welcome to POS System"
+                Style="{StaticResource Headline}"
+                SemanticProperties.HeadingLevel="Level1"
+                FontSize="32"
+                HorizontalOptions="Center"
+                Margin="0,40,0,20" />
+
+            <Label 
+                Text="Sales Dashboard"
+                Style="{StaticResource SubHeadline}"
+                FontSize="24"
+                Margin="0,20,0,10" />
+
+            <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" />
+
+            <Grid ColumnDefinitions="*,*,*" RowDefinitions="Auto,Auto" ColumnSpacing="15" RowSpacing="15" Margin="0,20,0,0">
+                
+                <!-- Today Sales Card -->
+                <Frame Grid.Column="0" BackgroundColor="#E3F2FD" CornerRadius="10" Padding="20">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Today's Sales" FontSize="16" FontAttributes="Bold" />
+                        <Label Text="{Binding TodaySales, StringFormat='${0:N2}'}" FontSize="24" TextColor="#1976D2" />
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Week Sales Card -->
+                <Frame Grid.Column="1" BackgroundColor="#E8F5E9" CornerRadius="10" Padding="20">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="This Week" FontSize="16" FontAttributes="Bold" />
+                        <Label Text="{Binding WeekSales, StringFormat='${0:N2}'}" FontSize="24" TextColor="#388E3C" />
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Month Sales Card -->
+                <Frame Grid.Column="2" BackgroundColor="#FFF3E0" CornerRadius="10" Padding="20">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="This Month" FontSize="16" FontAttributes="Bold" />
+                        <Label Text="{Binding MonthSales, StringFormat='${0:N2}'}" FontSize="24" TextColor="#F57C00" />
+                    </VerticalStackLayout>
+                </Frame>
+            </Grid>
+
+            <Label 
+                Text="Quick Actions"
+                Style="{StaticResource SubHeadline}"
+                FontSize="24"
+                Margin="0,40,0,10" />
+
+            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" ColumnSpacing="15" RowSpacing="15">
+                <Button Grid.Column="0" Grid.Row="0" Text="New Sale" Command="{Binding NavigateToNewSaleCommand}" 
+                        BackgroundColor="#4CAF50" TextColor="White" FontSize="18" HeightRequest="60" />
+                <Button Grid.Column="1" Grid.Row="0" Text="Products" Command="{Binding NavigateToProductsCommand}" 
+                        BackgroundColor="#2196F3" TextColor="White" FontSize="18" HeightRequest="60" />
+                <Button Grid.Column="0" Grid.Row="1" Text="Customers" Command="{Binding NavigateToCustomersCommand}" 
+                        BackgroundColor="#FF9800" TextColor="White" FontSize="18" HeightRequest="60" />
+                <Button Grid.Column="1" Grid.Row="1" Text="Sales History" Command="{Binding NavigateToSalesCommand}" 
+                        BackgroundColor="#9C27B0" TextColor="White" FontSize="18" HeightRequest="60" />
+            </Grid>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

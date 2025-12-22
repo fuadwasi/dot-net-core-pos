@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="POSSystem.Maui.Pages.NewSalePage"
+             Title="New Sale">
+
+    <Grid ColumnDefinitions="2*,*" Padding="10">
+        
+        <!-- Left Side: Available Products -->
+        <Grid Grid.Column="0" RowDefinitions="Auto,*" Margin="0,0,10,0">
+            <Label Grid.Row="0" Text="Available Products" FontSize="20" FontAttributes="Bold" Margin="10" />
+            <CollectionView Grid.Row="1" ItemsSource="{Binding AvailableProducts}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Margin="5" Padding="10" CornerRadius="5">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.AddToCartCommand}"
+                                                    CommandParameter="{Binding .}" />
+                            </Frame.GestureRecognizers>
+                            <Grid ColumnDefinitions="*,Auto">
+                                <VerticalStackLayout Grid.Column="0">
+                                    <Label Text="{Binding Name}" FontSize="16" FontAttributes="Bold" />
+                                    <Label Text="{Binding Price, StringFormat='${0:N2}'}" FontSize="14" TextColor="Green" />
+                                    <Label Text="{Binding StockQuantity, StringFormat='Stock: {0}'}" FontSize="12" TextColor="Gray" />
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+
+        <!-- Right Side: Cart and Checkout -->
+        <Grid Grid.Column="1" RowDefinitions="Auto,*,Auto">
+            <Label Grid.Row="0" Text="Cart" FontSize="20" FontAttributes="Bold" Margin="10" />
+            
+            <!-- Cart Items -->
+            <CollectionView Grid.Row="1" ItemsSource="{Binding CartItems}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <SwipeView>
+                            <SwipeView.RightItems>
+                                <SwipeItems>
+                                    <SwipeItem Text="Remove" 
+                                             BackgroundColor="Red"
+                                             Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.RemoveFromCartCommand}"
+                                             CommandParameter="{Binding .}" />
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+                            <Frame Margin="5" Padding="10">
+                                <Grid RowDefinitions="Auto,Auto,Auto">
+                                    <Label Grid.Row="0" Text="{Binding Product.Name}" FontSize="14" FontAttributes="Bold" />
+                                    <Label Grid.Row="1" Text="{Binding Quantity, StringFormat='Qty: {0}'}" FontSize="12" />
+                                    <Label Grid.Row="2" Text="{Binding Total, StringFormat='${0:N2}'}" FontSize="14" TextColor="Green" />
+                                </Grid>
+                            </Frame>
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- Checkout Section -->
+            <VerticalStackLayout Grid.Row="2" Spacing="10" Padding="10">
+                <Picker Title="Customer" ItemsSource="{Binding Customers}" ItemDisplayBinding="{Binding Name}" SelectedItem="{Binding SelectedCustomer}" />
+                <Picker Title="Payment Method" SelectedItem="{Binding PaymentMethod}">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Cash</x:String>
+                            <x:String>Credit Card</x:String>
+                            <x:String>Debit Card</x:String>
+                            <x:String>Mobile Payment</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+                <Entry Placeholder="Tax Amount" Text="{Binding TaxAmount}" Keyboard="Numeric" />
+                <Entry Placeholder="Discount Amount" Text="{Binding DiscountAmount}" Keyboard="Numeric" />
+                
+                <BoxView HeightRequest="2" BackgroundColor="Gray" />
+                
+                <Label Text="{Binding SubTotal, StringFormat='Subtotal: ${0:N2}'}" FontSize="16" />
+                <Label Text="{Binding Total, StringFormat='Total: ${0:N2}'}" FontSize="20" FontAttributes="Bold" TextColor="Green" />
+                
+                <Button Text="Complete Sale" 
+                        Command="{Binding ProcessSaleCommand}" 
+                        BackgroundColor="Green" 
+                        TextColor="White"
+                        IsEnabled="{Binding IsProcessing, Converter={StaticResource InvertedBoolConverter}}" />
+            </VerticalStackLayout>
+        </Grid>
+
+    </Grid>
+
+</ContentPage>
