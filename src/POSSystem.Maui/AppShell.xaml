@@ -9,31 +9,26 @@
     <ShellContent
         Title="Home"
         ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage"
-        Icon="home.png" />
+        Route="MainPage" />
 
     <ShellContent
         Title="Products"
         ContentTemplate="{DataTemplate local:ProductsPage}"
-        Route="ProductsPage"
-        Icon="products.png" />
+        Route="ProductsPage" />
 
     <ShellContent
         Title="Customers"
         ContentTemplate="{DataTemplate local:CustomersPage}"
-        Route="CustomersPage"
-        Icon="customers.png" />
+        Route="CustomersPage" />
 
     <ShellContent
         Title="Sales"
         ContentTemplate="{DataTemplate local:SalesPage}"
-        Route="SalesPage"
-        Icon="sales.png" />
+        Route="SalesPage" />
 
     <ShellContent
         Title="New Sale"
         ContentTemplate="{DataTemplate local:NewSalePage}"
-        Route="NewSalePage"
-        Icon="cart.png" />
+        Route="NewSalePage" />
 
 </Shell>
