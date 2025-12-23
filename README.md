@@ -11,14 +11,17 @@ A modern, cross-platform Point of Sale (POS) system built with .NET 9 and .NET M
 - **Entity Framework Core**: Modern ORM with SQLite for cross-platform data storage
 - **MVVM Pattern**: Model-View-ViewModel architecture for maintainable UI code
 - **Responsive UI**: Adaptive layout that works on different screen sizes
+- **Installation Wizard**: nopCommerce-style setup wizard for first-run configuration
 
 ### Core Functionality
 
+- **Installation Wizard**: First-run setup with database configuration (SQLite or SQL Server)
 - **Product Management**: Add, edit, delete, and search products
 - **Customer Management**: Manage customer information and purchase history
 - **Sales Processing**: Complete sales transactions with multiple payment methods
 - **Sales History**: View and filter sales by date range
 - **Dashboard**: Real-time sales metrics (daily, weekly, monthly)
+- **Multi-Database Support**: Choose between SQLite (default) or SQL Server
 
 ## 📋 Prerequisites
 
@@ -112,6 +115,19 @@ dotnet build
 
 ## ▶️ Running the Application
 
+> **💡 First Time Setup**: The application includes an installation wizard (like nopCommerce) that will guide you through database configuration on first run. See [INSTALL.md](INSTALL.md) for detailed instructions.
+
+### Quick Start
+
+1. Install MAUI workload: `dotnet workload install maui`
+2. Open `POSSystem.sln` in Visual Studio 2022
+3. Select "Windows Machine" as target
+4. Press F5 to run
+5. Complete the installation wizard (appears automatically)
+6. Start using the application!
+
+For detailed installation and troubleshooting, see **[INSTALL.md](INSTALL.md)**.
+
 ### Option 1: Using Visual Studio
 
 1. Open `POSSystem.sln` in Visual Studio 2022
@@ -120,6 +136,7 @@ dotnet build
    - Android Emulator (for Android)
    - iOS Simulator (for iOS - macOS only)
 3. Press F5 or click "Start Debugging"
+4. On first run, complete the installation wizard
 
 ### Option 2: Using .NET CLI
 
