@@ -64,8 +64,15 @@
 		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.101" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.101" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.0" />
 		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
 		<PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.2" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<!-- Configuration file -->
+		<EmbeddedResource Include="appsettings.json" />
 	</ItemGroup>
 
 	<!-- Windows-specific packages -->
