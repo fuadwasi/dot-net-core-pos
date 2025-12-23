@@ -64,7 +64,11 @@
 		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.101" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.101" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
+		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
+		<PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.2" />
 	</ItemGroup>
+
+	<!-- Windows-specific packages -->
 
 	<ItemGroup>
 	  <ProjectReference Include="..\POSSystem.Application\POSSystem.Application.csproj" />
