@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="POSSystem.Maui.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:POSSystem.Maui.Pages"
+    Shell.FlyoutBehavior="Flyout">
+
+    <ShellContent
+        Title="Home"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="MainPage" />
+
+    <ShellContent
+        Title="Products"
+        ContentTemplate="{DataTemplate local:ProductsPage}"
+        Route="ProductsPage" />
+
+    <ShellContent
+        Title="Customers"
+        ContentTemplate="{DataTemplate local:CustomersPage}"
+        Route="CustomersPage" />
+
+    <ShellContent
+        Title="Sales"
+        ContentTemplate="{DataTemplate local:SalesPage}"
+        Route="SalesPage" />
+
+    <ShellContent
+        Title="New Sale"
+        ContentTemplate="{DataTemplate local:NewSalePage}"
+        Route="NewSalePage" />
+
+</Shell>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="POSSystem.Maui.Pages.ProductsPage"
+             Title="Products">
+
+    <Grid RowDefinitions="Auto,*" Padding="10">
+        
+        <!-- Search Bar -->
+        <SearchBar Grid.Row="0" 
+                   Placeholder="Search products..." 
+                   Text="{Binding SearchText}"
+                   SearchCommand="{Binding SearchProductsCommand}"
+                   Margin="10" />
+
+        <!-- Products List -->
+        <RefreshView Grid.Row="1" 
+                     IsRefreshing="{Binding IsRefreshing}"
+                     Command="{Binding RefreshProductsCommand}">
+            <CollectionView ItemsSource="{Binding Products}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <SwipeView>
+                            <SwipeView.RightItems>
+                                <SwipeItems>
+                                    <SwipeItem Text="Delete" 
+                                             BackgroundColor="Red"
+                                             Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteProductCommand}"
+                                             CommandParameter="{Binding .}" />
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+                            
+                            <Frame Margin="10,5" Padding="15" CornerRadius="10" HasShadow="True">
+                                <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto,Auto">
+                                    <Label Grid.Row="0" Text="{Binding Name}" FontSize="18" FontAttributes="Bold" />
+                                    <Label Grid.Row="1" Text="{Binding Description}" FontSize="14" TextColor="Gray" />
+                                    <Label Grid.Row="2" Text="{Binding Price, StringFormat='Price: ${0:N2}'}" FontSize="16" TextColor="Green" />
+                                    <Label Grid.Row="3" Text="{Binding StockQuantity, StringFormat='Stock: {0}'}" FontSize="14" />
+                                    
+                                    <Label Grid.Column="1" Grid.RowSpan="4" 
+                                           Text="{Binding Category}" 
+                                           FontSize="12" 
+                                           BackgroundColor="LightBlue"
+                                           Padding="10,5"
+                                           VerticalOptions="Start"
+                                           HorizontalOptions="End" />
+                                </Grid>
+                            </Frame>
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+
+        <ActivityIndicator Grid.Row="1" IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" />
+    </Grid>
+
+</ContentPage>
