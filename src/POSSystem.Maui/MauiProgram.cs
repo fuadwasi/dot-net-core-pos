@@ -29,14 +29,29 @@ public static class MauiProgram
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
-            // Load configuration from embedded appsettings.json
-            var assembly = Assembly.GetExecutingAssembly();
-            using var stream = assembly.GetManifestResourceStream("POSSystem.Maui.appsettings.json");
+            // Load configuration - check external file first, then embedded
+            var configBuilder = new ConfigurationBuilder();
             
-            var config = new ConfigurationBuilder()
-                .AddJsonStream(stream!)
-                .Build();
-
+            // Try to load from external appsettings.json in AppDataDirectory (created during installation)
+            var externalAppSettingsPath = Path.Combine(FileSystem.AppDataDirectory, "appsettings.json");
+            if (File.Exists(externalAppSettingsPath))
+            {
+                System.Diagnostics.Debug.WriteLine($"Loading configuration from external file: {externalAppSettingsPath}");
+                configBuilder.AddJsonFile(externalAppSettingsPath, optional: false, reloadOnChange: false);
+            }
+            else
+            {
+                // Fall back to embedded appsettings.json
+                System.Diagnostics.Debug.WriteLine("Loading configuration from embedded resource");
+                var assembly = Assembly.GetExecutingAssembly();
+                var stream = assembly.GetManifestResourceStream("POSSystem.Maui.appsettings.json");
+                if (stream != null)
+                {
+                    configBuilder.AddJsonStream(stream);
+                }
+            }
+            
+            var config = configBuilder.Build();
             builder.Configuration.AddConfiguration(config);
 
             // Load data configuration

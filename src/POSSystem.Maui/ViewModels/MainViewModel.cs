@@ -48,4 +48,28 @@ public partial class MainViewModel : ObservableObject
             IsLoading = false;
         }
     }
+
+    [RelayCommand]
+    public async Task NavigateToNewSaleAsync()
+    {
+        await Shell.Current.GoToAsync("NewSalePage");
+    }
+
+    [RelayCommand]
+    public async Task NavigateToProductsAsync()
+    {
+        await Shell.Current.GoToAsync("ProductsPage");
+    }
+
+    [RelayCommand]
+    public async Task NavigateToCustomersAsync()
+    {
+        await Shell.Current.GoToAsync("CustomersPage");
+    }
+
+    [RelayCommand]
+    public async Task NavigateToSalesAsync()
+    {
+        await Shell.Current.GoToAsync("SalesPage");
+    }
 }
