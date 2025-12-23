@@ -158,12 +158,44 @@ dotnet run -f net9.0-ios
 
 ## 🗄️ Database
 
-The application uses SQLite for data storage, which is automatically created on first run. The database file is stored in the application's local data directory:
+The application uses SQLite for data storage by default, which is automatically created on first run. Database configuration is managed through `appsettings.json` following nopCommerce patterns.
+
+### Database Configuration
+
+Configuration is stored in `src/POSSystem.Maui/appsettings.json`:
+
+```json
+{
+  "Data": {
+    "ConnectionString": "",
+    "DataProvider": "SQLite",
+    "SQLCommandTimeout": null
+  }
+}
+```
+
+When the connection string is empty (default), the database is automatically created at:
 
 - **Windows**: `%LOCALAPPDATA%\POSSystem\pos.db`
 - **macOS**: `~/Library/Application Support/POSSystem/pos.db`
 - **Android**: `/data/data/com.possystem.maui/files/pos.db`
 - **iOS**: App sandbox container
+
+### Switching to SQL Server
+
+To use SQL Server instead of SQLite, update `appsettings.json`:
+
+```json
+{
+  "Data": {
+    "ConnectionString": "Server=localhost;Database=POSSystem;User Id=sa;Password=YourPassword;TrustServerCertificate=true;",
+    "DataProvider": "SqlServer",
+    "SQLCommandTimeout": 30
+  }
+}
+```
+
+For detailed configuration options, see [CONFIGURATION.md](CONFIGURATION.md).
 
 ### Sample Data
 
@@ -205,13 +237,31 @@ The application includes sample products that are automatically seeded on the fi
 
 ### Database Configuration
 
-The database connection is configured in `MauiProgram.cs`:
+The application uses a centralized configuration approach with `appsettings.json`, following nopCommerce patterns. Configuration is managed through the `DataSettingsManager` class:
 
 ```csharp
-var dbPath = Path.Combine(FileSystem.AppDataDirectory, "pos.db");
+// Configuration is loaded from appsettings.json at startup
+var dataConfig = new DataConfig();
+builder.Configuration.GetSection("Data").Bind(dataConfig);
+
+// Load into DataSettingsManager
+DataSettingsManager.LoadSettings(dataConfig);
+
+// DbContext configuration supports multiple providers
 builder.Services.AddDbContext<POSDbContext>(options =>
-    options.UseSqlite($"Data Source={dbPath}"));
+{
+    if (dataConfig.DataProvider.Equals("SQLite", StringComparison.OrdinalIgnoreCase))
+    {
+        options.UseSqlite(connectionString);
+    }
+    else if (dataConfig.DataProvider.Equals("SqlServer", StringComparison.OrdinalIgnoreCase))
+    {
+        options.UseSqlServer(connectionString);
+    }
+});
 ```
+
+For complete configuration documentation, see [CONFIGURATION.md](CONFIGURATION.md).
 
 ### Dependency Injection
 
@@ -234,6 +284,7 @@ builder.Services.AddScoped<SaleService>();
 
 ### Infrastructure Layer
 - `Microsoft.EntityFrameworkCore.Sqlite` (9.0.0)
+- `Microsoft.EntityFrameworkCore.SqlServer` (9.0.0)
 - `Microsoft.EntityFrameworkCore.Design` (9.0.0)
 
 ### Application Layer
@@ -243,6 +294,8 @@ builder.Services.AddScoped<SaleService>();
 - `Microsoft.Maui.Controls` (9.0.101)
 - `CommunityToolkit.Maui` (11.2.0)
 - `CommunityToolkit.Mvvm` (8.4.0)
+- `Microsoft.Extensions.Configuration.Json` (9.0.0)
+- `Microsoft.Extensions.Configuration.Binder` (9.0.0)
 
 ## 🚀 Deployment
 
